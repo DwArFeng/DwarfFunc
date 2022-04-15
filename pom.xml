@@ -24,6 +24,7 @@
         <!-- 集中定义依赖版本号 -->
         <junit.version>4.13.1</junit.version>
         <dom4j.version>1.6.1</dom4j.version>
+        <log4j2.version>2.17.2</log4j2.version>
         <!-- Maven插件版本声明 -->
         <maven-clean-plugin.version>2.5</maven-clean-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
@@ -44,12 +45,12 @@
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-api</artifactId>
-                <version>2.16.0</version>
+                <version>${log4j2.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-core</artifactId>
-                <version>2.16.0</version>
+                <version>${log4j2.version}</version>
             </dependency>
             <!-- 程序自身组件 -->
             <dependency>
