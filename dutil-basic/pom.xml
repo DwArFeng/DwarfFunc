@@ -8,7 +8,7 @@
     <parent>
         <groupId>com.dwarfeng</groupId>
         <artifactId>dutil</artifactId>
-        <version>beta-0.2.2.a</version>
+        <version>beta-0.3.0.a-SNAPSHOT</version>
     </parent>
 
     <artifactId>dutil-basic</artifactId>
