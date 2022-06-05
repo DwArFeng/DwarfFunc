@@ -1,13 +1,13 @@
 package com.dwarfeng.dutil.basic.cna.model;
 
+import com.dwarfeng.dutil.basic.DwarfUtil;
+import com.dwarfeng.dutil.basic.ExceptionStringKey;
+import com.dwarfeng.dutil.basic.cna.model.obs.SetObserver;
+
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 import java.util.WeakHashMap;
-
-import com.dwarfeng.dutil.basic.DwarfUtil;
-import com.dwarfeng.dutil.basic.ExceptionStringKey;
-import com.dwarfeng.dutil.basic.cna.model.obv.SetObverser;
 
 /**
  * 抽象集合模型。
@@ -15,14 +15,16 @@ import com.dwarfeng.dutil.basic.cna.model.obv.SetObverser;
  * 集合模型的抽象实现。
  * <p>
  * 该类实现了模型中侦听器注册与移除的方法，以及通知侦听器的方法。
- * 
+ *
  * @author DwArFeng
  * @since 0.1.0-beta
  */
 public abstract class AbstractSetModel<E> implements SetModel<E> {
 
-	/** 抽象集合模型的侦听器集合。 */
-	protected final Set<SetObverser<E>> obversers;
+	/**
+	 * 抽象集合模型的侦听器集合。
+	 */
+	protected final Set<SetObserver<E>> observers;
 
 	/**
 	 * 生成一个默认的抽象集合模型。
@@ -33,60 +35,58 @@ public abstract class AbstractSetModel<E> implements SetModel<E> {
 
 	/**
 	 * 生成一个具有指定的侦听器集合的的抽象集合模型。
-	 * 
-	 * @param obversers
-	 *            指定的侦听器集合。
-	 * @throws NullPointerException
-	 *             入口参数为 <code>null</code>。
+	 *
+	 * @param observers 指定的侦听器集合。
+	 * @throws NullPointerException 入口参数为 <code>null</code>。
 	 */
-	public AbstractSetModel(Set<SetObverser<E>> obversers) {
-		Objects.requireNonNull(obversers, DwarfUtil.getExceptionString(ExceptionStringKey.ABSTRACTSETMODEL_0));
-		this.obversers = obversers;
+	public AbstractSetModel(Set<SetObserver<E>> observers) {
+		Objects.requireNonNull(observers, DwarfUtil.getExceptionString(ExceptionStringKey.ABSTRACTSETMODEL_0));
+		this.observers = observers;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Set<SetObverser<E>> getObversers() {
-		return Collections.unmodifiableSet(obversers);
+	public Set<SetObserver<E>> getObservers() {
+		return Collections.unmodifiableSet(observers);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean addObverser(SetObverser<E> obverser) {
-		return obversers.add(obverser);
+	public boolean addObserver(SetObserver<E> observer) {
+		return observers.add(observer);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean removeObverser(SetObverser<E> obverser) {
-		return obversers.remove(obverser);
+	public boolean removeObserver(SetObserver<E> observer) {
+		return observers.remove(observer);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void clearObverser() {
-		obversers.clear();
+	public void clearObserver() {
+		observers.clear();
 	}
 
 	/**
 	 * 通知观察器该模型添加了指定的元素。
-	 * 
+	 *
 	 * @param element
 	 *            指定的元素。
 	 */
 	protected void fireAdded(E element) {
-		for (SetObverser<E> obverser : obversers) {
-			if (Objects.nonNull(obverser))
+		for (SetObserver<E> observer : observers) {
+			if (Objects.nonNull(observer))
 				try {
-					obverser.fireAdded(element);
+					observer.fireAdded(element);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -95,15 +95,15 @@ public abstract class AbstractSetModel<E> implements SetModel<E> {
 
 	/**
 	 * 通知观察器该模型移除了指定的元素。
-	 * 
+	 *
 	 * @param element
 	 *            指定的元素。
 	 */
 	protected void fireRemoved(E element) {
-		for (SetObverser<E> obverser : obversers) {
-			if (Objects.nonNull(obverser))
+		for (SetObserver<E> observer : observers) {
+			if (Objects.nonNull(observer))
 				try {
-					obverser.fireRemoved(element);
+					observer.fireRemoved(element);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -114,14 +114,13 @@ public abstract class AbstractSetModel<E> implements SetModel<E> {
 	 * 通知观察器该模型清除了元素。
 	 */
 	protected void fireCleared() {
-		for (SetObverser<E> obverser : obversers) {
-			if (Objects.nonNull(obverser))
+		for (SetObserver<E> observer : observers) {
+			if (Objects.nonNull(observer))
 				try {
-					obverser.fireCleared();
+					observer.fireCleared();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 		}
 	}
-
 }

@@ -9,7 +9,7 @@ import com.dwarfeng.dutil.basic.str.Name;
  * 请不要在外部程序中调用此包的枚举，因为该枚举对内使用，其本身不保证兼容性。
  * <p>
  * <b>注意：</b> 该枚举在设计的时候不考虑兼容性，当发生不向上兼容的改动时，作者没有义务在变更日志中说明。
- * 
+ *
  * @author DwArFeng
  * @since 0.0.2-beta
  */
@@ -323,31 +323,31 @@ public enum ExceptionStringKey implements Name {
 	SETTINGUTIL_3("SettingUtil.3"), //
 	SETTINGUTIL_4("SettingUtil.4"), //
 	SETTINGUTIL_5("SettingUtil.5"), //
-	SETTINGUTIL_6("SettingUtil.6"), //
-	SETTINGUTIL_7("SettingUtil.7"), //
-	SETTINGUTIL_8("SettingUtil.8"), //
-	SETTINGUTIL_9("SettingUtil.9"), //
-	SETTINGUTIL_10("SettingUtil.10"), //
-	PROPSETTINGVALUELOADER_0("PropSettingValueLoader.0"), //
-	PROPSETTINGVALUELOADER_1("PropSettingValueLoader.1"), //
-	PROPSETTINGVALUESAVER_0("PropSettingValueSaver.0"), //
-	PROPSETTINGVALUESAVER_1("PropSettingValueSaver.1"), //
-	ABSTRACTTASK_0("AbstractTask.0"), //
-	ABSTRACTPLAIN_0("AbstractPlain.0"), //
-	ABSTRACTPLAIN_1("AbstractPlain.1"), //
-	ABSTRACTPLAIN_2("AbstractPlain.2"), //
-	FIXEDTIMEPLAIN_0("FixedTimePlain.0"), //
-	FIXEDRATEPLAIN_0("FixedRatePlain.0"), //
-	LISTTIMER_0("ListTimer.0"), //
-	LISTTIMER_1("ListTimer.1"), //
-	LISTTIMER_2("ListTimer.2"), //
-	TIMERUTIL_0("TimerUtil.0"), //
-	TIMERUTIL_1("TimerUtil.1"), //
-	TIMERUTIL_2("TimerUtil.2"), //
-	TIMERUTIL_3("TimerUtil.3"), //
-	NUMBERSETTINGINFO_0("NumberSettingInfo.0"), //
-	MUACOMBOBOXMODEL_0("MuaComboBoxModel.0"), //
-	MUACOMBOBOXMODEL_1("MuaComboBoxModel.1"), //
+    SETTINGUTIL_6("SettingUtil.6"), //
+    SETTINGUTIL_7("SettingUtil.7"), //
+    SETTINGUTIL_8("SettingUtil.8"), //
+    SETTINGUTIL_9("SettingUtil.9"), //
+    SETTINGUTIL_10("SettingUtil.10"), //
+    PROPSETTINGVALUELOADER_0("PropSettingValueLoader.0"), //
+    PROPSETTINGVALUELOADER_1("PropSettingValueLoader.1"), //
+    PROPSETTINGVALUESAVER_0("PropSettingValueSaver.0"), //
+    PROPSETTINGVALUESAVER_1("PropSettingValueSaver.1"), //
+    ABSTRACTTASK_0("AbstractTask.0"), //
+    ABSTRACTPLAN_0("AbstractPlan.0"), //
+    ABSTRACTPLAN_1("AbstractPlan.1"), //
+    ABSTRACTPLAN_2("AbstractPlan.2"), //
+    FIXEDTIMEPLAN_0("FixedTimePlan.0"), //
+    FIXEDRATEPLAN_0("FixedRatePlan.0"), //
+    LISTTIMER_0("ListTimer.0"), //
+    LISTTIMER_1("ListTimer.1"), //
+    LISTTIMER_2("ListTimer.2"), //
+    TIMERUTIL_0("TimerUtil.0"), //
+    TIMERUTIL_1("TimerUtil.1"), //
+    TIMERUTIL_2("TimerUtil.2"), //
+    TIMERUTIL_3("TimerUtil.3"), //
+    NUMBERSETTINGINFO_0("NumberSettingInfo.0"), //
+    MUACOMBOBOXMODEL_0("MuaComboBoxModel.0"), //
+    MUACOMBOBOXMODEL_1("MuaComboBoxModel.1"), //
 	ATTRIBUTECOMPLEX_0("AttributeComplex.0"), //
 	ATTRIBUTECOMPLEX_1("AttributeComplex.1"), //
 	ATTRIBUTECOMPLEX_2("AttributeComplex.2"), //
@@ -374,11 +374,11 @@ public enum ExceptionStringKey implements Name {
 
 	;
 
-	private String name;
+    private final String name;
 
-	private ExceptionStringKey(String name) {
-		this.name = name;
-	}
+    ExceptionStringKey(String name) {
+        this.name = name;
+    }
 
 	/**
 	 * {@inheritDoc}

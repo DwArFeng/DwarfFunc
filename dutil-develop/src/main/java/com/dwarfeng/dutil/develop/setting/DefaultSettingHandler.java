@@ -1,26 +1,17 @@
 package com.dwarfeng.dutil.develop.setting;
 
-import java.util.AbstractSet;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.ConcurrentModificationException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.WeakHashMap;
-
 import com.dwarfeng.dutil.basic.DwarfUtil;
 import com.dwarfeng.dutil.basic.ExceptionStringKey;
-import com.dwarfeng.dutil.develop.setting.obv.SettingObverser;
+import com.dwarfeng.dutil.develop.setting.obs.SettingObserver;
+
+import java.util.*;
 
 /**
  * 默认配置处理器。
- * 
+ *
  * <p>
  * 配置处理器的默认实现。
- * 
+ *
  * @author DwArFeng
  * @since 0.2.0-beta
  */
@@ -28,8 +19,8 @@ public class DefaultSettingHandler extends AbstractSettingHandler {
 
 	/**
 	 * 配置处理器中默认的迭代器。
-	 * 
-	 * @author DwArFeng
+     *
+     * @author DwArFeng
 	 * @since 0.2.0-beta
 	 */
 	private abstract class DefaultIterator<E> implements Iterator<E> {
@@ -64,8 +55,8 @@ public class DefaultSettingHandler extends AbstractSettingHandler {
 
 	/**
 	 * 默认配置处理器的键值集合。
-	 * 
-	 * @author DwArFeng
+     *
+     * @author DwArFeng
 	 * @since 0.2.0-beta
 	 */
 	private final class DefaultKeySet extends AbstractSet<String> implements Set<String> {
@@ -180,8 +171,8 @@ public class DefaultSettingHandler extends AbstractSettingHandler {
 
 	/**
 	 * 配置处理器中的键值迭代器。
-	 * 
-	 * @author DwArFeng
+     *
+     * @author DwArFeng
 	 * @since 0.2.0-beta
 	 */
 	private final class DefaultKeySetIterator extends DefaultIterator<String> implements Iterator<String> {
@@ -228,8 +219,8 @@ public class DefaultSettingHandler extends AbstractSettingHandler {
 
 	/**
 	 * 默认配置处理器的入口集合。
-	 * 
-	 * @author DwArFeng
+     *
+     * @author DwArFeng
 	 * @since 0.2.0-beta
 	 */
 	private final class DefaultEntrySet extends AbstractSet<Entry> implements Set<Entry> {
@@ -255,22 +246,19 @@ public class DefaultSettingHandler extends AbstractSettingHandler {
 		 */
 		@Override
 		public boolean contains(Object o) {
-			if (!(o instanceof Entry))
-				return false;
+            if (!(o instanceof Entry))
+                return false;
 
-			String key = ((Entry) o).getKey();
-			if (!settingInfoMap.containsKey(key))
-				return false;
+            String key = ((Entry) o).getKey();
+            if (!settingInfoMap.containsKey(key))
+                return false;
 
-			SettingInfo settingInfo = ((Entry) o).getSettingInfo();
-			String currentValue = ((Entry) o).getCurrentValue();
+            SettingInfo settingInfo = ((Entry) o).getSettingInfo();
+            String currentValue = ((Entry) o).getCurrentValue();
 
-			if (!Objects.equals(settingInfoMap.get(key), settingInfo)
-					|| !Objects.equals(currentValueMap.get(key), currentValue))
-				return false;
-
-			return true;
-		}
+            return Objects.equals(settingInfoMap.get(key), settingInfo)
+                    && Objects.equals(currentValueMap.get(key), currentValue);
+        }
 
 		/**
 		 * {@inheritDoc}
@@ -360,8 +348,8 @@ public class DefaultSettingHandler extends AbstractSettingHandler {
 
 	/**
 	 * 配置处理器中的入口迭代器。
-	 * 
-	 * @author DwArFeng
+     *
+     * @author DwArFeng
 	 * @since 0.2.0-beta
 	 */
 	private final class DefaultEntrySetIterator extends DefaultIterator<Entry> implements Iterator<Entry> {
@@ -409,8 +397,8 @@ public class DefaultSettingHandler extends AbstractSettingHandler {
 
 	/**
 	 * 默认配置处理器的入口。
-	 * 
-	 * @author DwArFeng
+     *
+     * @author DwArFeng
 	 * @since 0.2.0-beta
 	 */
 	private final class DefaultEntry extends AbstractSettingHandler.AbstractEntry implements SettingHandler.Entry {
@@ -510,30 +498,26 @@ public class DefaultSettingHandler extends AbstractSettingHandler {
 		this(new HashMap<>(), new HashMap<>(), Collections.newSetFromMap(new WeakHashMap<>()));
 	}
 
-	/**
-	 * 生成一个由指定的配置信息映射、当前值映射和观察器集合组成的配置处理器。
-	 * 
-	 * @param settingInfoMap
-	 *            指定的配置信息映射。
-	 * @param currentValueMap
-	 *            指定的当前值映射。
-	 * @param obversers
-	 *            指定的观察器。
-	 * @throws NullPointerException
-	 *             入口参数为 <code>null</code>。
-	 */
-	public DefaultSettingHandler(Map<String, SettingInfo> settingInfoMap, Map<String, String> currentValueMap,
-			Set<SettingObverser> obversers) {
-		super(obversers);
+    /**
+     * 生成一个由指定的配置信息映射、当前值映射和观察器集合组成的配置处理器。
+     *
+     * @param settingInfoMap  指定的配置信息映射。
+     * @param currentValueMap 指定的当前值映射。
+     * @param observers       指定的观察器。
+     * @throws NullPointerException 入口参数为 <code>null</code>。
+     */
+    public DefaultSettingHandler(Map<String, SettingInfo> settingInfoMap, Map<String, String> currentValueMap,
+                                 Set<SettingObserver> observers) {
+        super(observers);
 
-		Objects.requireNonNull(settingInfoMap,
-				DwarfUtil.getExceptionString(ExceptionStringKey.DEFAULTSETTINGHANDLER_0));
-		Objects.requireNonNull(currentValueMap,
-				DwarfUtil.getExceptionString(ExceptionStringKey.DEFAULTSETTINGHANDLER_1));
+        Objects.requireNonNull(settingInfoMap,
+                DwarfUtil.getExceptionString(ExceptionStringKey.DEFAULTSETTINGHANDLER_0));
+        Objects.requireNonNull(currentValueMap,
+                DwarfUtil.getExceptionString(ExceptionStringKey.DEFAULTSETTINGHANDLER_1));
 
-		this.settingInfoMap = settingInfoMap;
-		this.currentValueMap = currentValueMap;
-	}
+        this.settingInfoMap = settingInfoMap;
+        this.currentValueMap = currentValueMap;
+    }
 
 	/**
 	 * {@inheritDoc}
@@ -792,10 +776,10 @@ public class DefaultSettingHandler extends AbstractSettingHandler {
 
 	/**
 	 * 获取该配置处理器的更改计数。
-	 * 
+	 *
 	 * @return 该配置处理器的更改计数。
 	 */
-	protected int modCount() {
+    protected int modCount() {
 		return modCount;
 	}
 

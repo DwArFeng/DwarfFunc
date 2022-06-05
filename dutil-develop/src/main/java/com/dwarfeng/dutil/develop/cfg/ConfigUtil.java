@@ -1,35 +1,31 @@
 package com.dwarfeng.dutil.develop.cfg;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
 import com.dwarfeng.dutil.basic.DwarfUtil;
 import com.dwarfeng.dutil.basic.ExceptionStringKey;
-import com.dwarfeng.dutil.develop.cfg.obv.ConfigObverser;
-import com.dwarfeng.dutil.develop.cfg.obv.ExconfigObverser;
+import com.dwarfeng.dutil.develop.cfg.obs.ConfigObserver;
+import com.dwarfeng.dutil.develop.cfg.obs.ExconfigObserver;
 import com.dwarfeng.dutil.develop.cfg.struct.ExconfigEntry;
 import com.dwarfeng.dutil.develop.cfg.struct.ValueParser;
 
+import java.util.*;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 /**
  * 有关于配置包的一些常用方法。
- * 
+ *
  * @author DwArFeng
  * @since 0.0.2-beta
  */
 public final class ConfigUtil {
 
-	/**
+    /**
 	 * 判断指定的配置固定属性是否有效。
 	 * <p>
 	 * 当指定的配置固定属性不为 <code>null</code>，并且其中的配置值检查器不为 <code>null</code>，
 	 * 且其默认值能通过配置值检查器时，认为指定的配置固定属性有效。
-	 * 
-	 * @param configFirmProps
+     *
+     * @param configFirmProps
 	 *            指定的配置固定属性。
 	 * @return 指定的配置固定属性是否有效。
 	 */
@@ -48,8 +44,8 @@ public final class ConfigUtil {
 	 * 判断指定的配置固定属性是否无效。
 	 * <p>
 	 * 如果配置固定值不有效，则无效，即该方法等同于 <code> ! isValid(configFirmProps)</code>
-	 * 
-	 * @param configFirmProps
+     *
+     * @param configFirmProps
 	 *            指定的配置固定属性。
 	 * @return 指定的配置固定属性值是否无效。
 	 */
@@ -62,8 +58,8 @@ public final class ConfigUtil {
 	 * <p>
 	 * 当指定的配置入口不为 <code>null</code>， 且其中的配置键不为 <code>null</code>，
 	 * 且其中的配置固定值有效时，认为指定的配置入口有效。
-	 * 
-	 * @param configEntry
+     *
+     * @param configEntry
 	 *            指定的配置入口。
 	 * @return 指定的配置入口是否有效。
 	 */
@@ -80,8 +76,8 @@ public final class ConfigUtil {
 	 * 判断指定的配置入口是否无效。
 	 * <p>
 	 * 如果配置入口不有效，则无效，即该方法等同于 <code>！ isValid(configEntry)</code>
-	 * 
-	 * @param configEntry
+     *
+     * @param configEntry
 	 *            指定的配置入口。
 	 * @return 指定的配置入口是否无效。
 	 */
@@ -91,8 +87,8 @@ public final class ConfigUtil {
 
 	/**
 	 * 根据指定的配置模型生成一个不可更改的配置模型。
-	 * 
-	 * @param configModel
+     *
+     * @param configModel
 	 *            指定的配置模型。
 	 * @return 根据指定模型生成的不可更改的配置模型。
 	 * @throws NullPointerException
@@ -111,36 +107,36 @@ public final class ConfigUtil {
 			this.delegate = delegate;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Set<ConfigObverser> getObversers() {
-			return delegate.getObversers();
-		}
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Set<ConfigObserver> getObservers() {
+            return delegate.getObservers();
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean addObverser(ConfigObverser obverser) {
-			return delegate.addObverser(obverser);
-		}
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean addObserver(ConfigObserver observer) {
+            return delegate.addObserver(observer);
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean removeObverser(ConfigObverser obverser) {
-			return delegate.removeObverser(obverser);
-		}
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean removeObserver(ConfigObserver observer) {
+            return delegate.removeObserver(observer);
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public void clearObverser() {
-			delegate.clearObverser();
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void clearObserver() {
+			delegate.clearObserver();
 		}
 
 		/**
@@ -307,30 +303,28 @@ public final class ConfigUtil {
 
 	/**
 	 * 判断指定的 Ex配置入口是不是有效的。
-	 * 
+	 *
 	 * @param entry
 	 *            指定的配置入口。
 	 * @return 指定的配置入口是不是有效的。
 	 */
 	public static boolean isValid(ExconfigEntry entry) {
-		if (Objects.isNull(entry))
-			return false;
-		if (Objects.isNull(entry.getConfigKey()))
-			return false;
-		if (Objects.isNull(entry.getValueParser()))
-			return false;
-		if (Objects.isNull(entry.getConfigFirmProps()))
-			return false;
-		if (Objects.isNull(entry.getCurrentValue()))
-			return false;
-		if (nonValid(entry.getConfigFirmProps()))
-			return false;
-		return true;
-	}
+        if (Objects.isNull(entry))
+            return false;
+        if (Objects.isNull(entry.getConfigKey()))
+            return false;
+        if (Objects.isNull(entry.getValueParser()))
+            return false;
+        if (Objects.isNull(entry.getConfigFirmProps()))
+            return false;
+        if (Objects.isNull(entry.getCurrentValue()))
+            return false;
+        return !nonValid(entry.getConfigFirmProps());
+    }
 
 	/**
 	 * 判断指定的 Ex配置入口是不是无效的。
-	 * 
+	 *
 	 * @param entry
 	 *            指定的配置入口
 	 * @return 指定的配置入口是不是无效的。
@@ -341,7 +335,7 @@ public final class ConfigUtil {
 
 	/**
 	 * 由指定的Ex配置模型生成一个线程安全的Ex配置模型。
-	 * 
+	 *
 	 * @param exconfigModel
 	 *            指定的Ex配置模型。
 	 * @return 由指定Ex配置模型生成的线程安全的Ex配置模型。
@@ -365,43 +359,43 @@ public final class ConfigUtil {
 		 */
 		@Override
 		public ReadWriteLock getLock() {
-			return lock;
-		}
+            return lock;
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Set<ExconfigObverser> getObversers() {
-			lock.readLock().lock();
-			try {
-				return delegate.getObversers();
-			} finally {
-				lock.readLock().unlock();
-			}
-		}
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Set<ExconfigObserver> getObservers() {
+            lock.readLock().lock();
+            try {
+                return delegate.getObservers();
+            } finally {
+                lock.readLock().unlock();
+            }
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean addObverser(ExconfigObverser obverser) {
-			lock.writeLock().lock();
-			try {
-				return delegate.addObverser(obverser);
-			} finally {
-				lock.writeLock().unlock();
-			}
-		}
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean addObserver(ExconfigObserver observer) {
+            lock.writeLock().lock();
+            try {
+                return delegate.addObserver(observer);
+            } finally {
+                lock.writeLock().unlock();
+            }
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean removeObverser(ExconfigObverser obverser) {
-			lock.writeLock().lock();
-			try {
-				return delegate.removeObverser(obverser);
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean removeObserver(ExconfigObserver observer) {
+            lock.writeLock().lock();
+            try {
+                return delegate.removeObserver(observer);
 			} finally {
 				lock.writeLock().unlock();
 			}
@@ -414,20 +408,20 @@ public final class ConfigUtil {
 		public void clear() {
 			lock.writeLock().lock();
 			try {
-				delegate.clear();
-			} finally {
-				lock.writeLock().unlock();
-			}
-		}
+                delegate.clear();
+            } finally {
+                lock.writeLock().unlock();
+            }
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public void clearObverser() {
-			lock.writeLock().lock();
-			try {
-				delegate.clearObverser();
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void clearObserver() {
+            lock.writeLock().lock();
+            try {
+                delegate.clearObserver();
 			} finally {
 				lock.writeLock().unlock();
 			}
@@ -762,60 +756,60 @@ public final class ConfigUtil {
 		}
 
 		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public ReadWriteLock getLock() {
-			return lock;
-		}
+         * {@inheritDoc}
+         */
+        @Override
+        public ReadWriteLock getLock() {
+            return lock;
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Set<ConfigObverser> getObversers() {
-			lock.readLock().lock();
-			try {
-				return delegate.getObversers();
-			} finally {
-				lock.readLock().unlock();
-			}
-		}
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Set<ConfigObserver> getObservers() {
+            lock.readLock().lock();
+            try {
+                return delegate.getObservers();
+            } finally {
+                lock.readLock().unlock();
+            }
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean addObverser(ConfigObverser obverser) {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean addObserver(ConfigObserver observer) {
+            lock.writeLock().lock();
+            try {
+                return delegate.addObserver(observer);
+            } finally {
+                lock.writeLock().unlock();
+            }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean removeObserver(ConfigObserver observer) {
+            lock.writeLock().lock();
+            try {
+                return delegate.removeObserver(observer);
+            } finally {
+                lock.writeLock().unlock();
+            }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void clearObserver() {
 			lock.writeLock().lock();
 			try {
-				return delegate.addObverser(obverser);
-			} finally {
-				lock.writeLock().unlock();
-			}
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean removeObverser(ConfigObverser obverser) {
-			lock.writeLock().lock();
-			try {
-				return delegate.removeObverser(obverser);
-			} finally {
-				lock.writeLock().unlock();
-			}
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public void clearObverser() {
-			lock.writeLock().lock();
-			try {
-				delegate.clearObverser();
+				delegate.clearObserver();
 			} finally {
 				lock.writeLock().unlock();
 			}
@@ -1075,7 +1069,7 @@ public final class ConfigUtil {
 		public boolean resetAllCurrentValue() {
 			lock.writeLock().lock();
 			try {
-				return delegate.resetAllCurrentValue();
+                return delegate.resetAllCurrentValue();
 			} finally {
 				lock.writeLock().unlock();
 			}
@@ -1085,7 +1079,7 @@ public final class ConfigUtil {
 
 	/**
 	 * 根据指定的Ex配置模型生成一个不可编辑的Ex配置模型。
-	 * 
+	 *
 	 * @param exconfigModel
 	 *            指定的配置模型。
 	 * @return 不可编辑的Ex配置模型。
@@ -1104,43 +1098,43 @@ public final class ConfigUtil {
 		}
 
 		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public String getCurrentValue(ConfigKey configKey) {
-			return delegate.getCurrentValue(configKey);
-		}
+         * {@inheritDoc}
+         */
+        @Override
+        public String getCurrentValue(ConfigKey configKey) {
+            return delegate.getCurrentValue(configKey);
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Set<ExconfigObverser> getObversers() {
-			return delegate.getObversers();
-		}
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Set<ExconfigObserver> getObservers() {
+            return delegate.getObservers();
+        }
 
-		/**
-		 * {@inheritDoc}
+        /**
+         * {@inheritDoc}
 		 */
 		@Override
-		public boolean addObverser(ExconfigObverser obverser) {
-			throw new UnsupportedOperationException("addObverser");
-		}
+		public boolean addObserver(ExconfigObserver observer) {
+			throw new UnsupportedOperationException("addObserver");
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Map<ConfigKey, String> getAllCurrentValue() {
-			return delegate.getAllCurrentValue();
-		}
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Map<ConfigKey, String> getAllCurrentValue() {
+            return delegate.getAllCurrentValue();
+        }
 
-		/**
-		 * {@inheritDoc}
+        /**
+         * {@inheritDoc}
 		 */
 		@Override
-		public boolean removeObverser(ExconfigObverser obverser) {
-			throw new UnsupportedOperationException("removeObverser");
+		public boolean removeObserver(ExconfigObserver observer) {
+			throw new UnsupportedOperationException("removeObserver");
 		}
 
 		/**
@@ -1153,18 +1147,18 @@ public final class ConfigUtil {
 
 		/**
 		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean setCurrentValue(ConfigKey configKey, String currentValue) {
-			throw new UnsupportedOperationException("setCurrentValue");
+         */
+        @Override
+        public boolean setCurrentValue(ConfigKey configKey, String currentValue) {
+            throw new UnsupportedOperationException("setCurrentValue");
 		}
 
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
-		public void clearObverser() {
-			throw new UnsupportedOperationException("clearObverser");
+		public void clearObserver() {
+			throw new UnsupportedOperationException("clearObserver");
 		}
 
 		/**

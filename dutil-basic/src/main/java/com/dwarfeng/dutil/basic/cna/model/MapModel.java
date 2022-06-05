@@ -1,9 +1,9 @@
 package com.dwarfeng.dutil.basic.cna.model;
 
-import java.util.Map;
+import com.dwarfeng.dutil.basic.cna.model.obs.MapObserver;
+import com.dwarfeng.dutil.basic.prog.ObserverSet;
 
-import com.dwarfeng.dutil.basic.cna.model.obv.MapObverser;
-import com.dwarfeng.dutil.basic.prog.ObverserSet;
+import java.util.Map;
 
 /**
  * 映射模型。
@@ -12,10 +12,9 @@ import com.dwarfeng.dutil.basic.prog.ObverserSet;
  * {@link Map} 的一个实现。
  * <p>
  * 当映射中的键-值对被增加、删除、改变、清空的时候，会将必要的信息提供给注册在模型上的侦听器集合。
- * 
+ *
  * @author DwArFeng
  * @since 0.1.0-beta
  */
-public interface MapModel<K, V> extends Map<K, V>, ObverserSet<MapObverser<K, V>> {
-
+public interface MapModel<K, V> extends Map<K, V>, ObserverSet<MapObserver<K, V>> {
 }

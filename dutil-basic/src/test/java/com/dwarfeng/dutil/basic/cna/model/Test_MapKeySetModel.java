@@ -1,30 +1,22 @@
 package com.dwarfeng.dutil.basic.cna.model;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Set;
-import java.util.WeakHashMap;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import com.dwarfeng.dutil.basic.cna.model.MapKeySetModel;
+import java.util.*;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class Test_MapKeySetModel {
 
 	private final MapKeySetModel<String, TestWithKey> model = new MapKeySetModel<>(new LinkedHashMap<>(),
 			Collections.newSetFromMap(new WeakHashMap<>()));
-	private final TestSetObverser<TestWithKey> obv = new TestSetObverser<TestWithKey>();
+	private final TestSetObserver<TestWithKey> obv = new TestSetObserver<TestWithKey>();
 
 	@Before
 	public void setUp() throws Exception {
-		model.clearObverser();
+		model.clearObserver();
 		model.clear();
 		obv.reset();
 		model.add(TestWithKey.ELE_1);
@@ -32,7 +24,7 @@ public class Test_MapKeySetModel {
 		model.add(TestWithKey.ELE_3);
 		model.add(TestWithKey.ELE_4);
 		model.add(TestWithKey.ELE_5);
-		model.addObverser(obv);
+		model.addObserver(obv);
 	}
 
 	@Test
@@ -200,16 +192,16 @@ public class Test_MapKeySetModel {
 	}
 
 	@Test
-	public void testGetObversers() {
-		assertEquals(true, model.getObversers().contains(obv));
-		assertEquals(1, model.getObversers().size());
+	public void testGetObservers() {
+		assertEquals(true, model.getObservers().contains(obv));
+		assertEquals(1, model.getObservers().size());
 	}
 
 	@Test
-	public void testRemoveObverser() {
-		model.removeObverser(obv);
-		assertEquals(0, model.getObversers().size());
-		assertEquals(false, model.getObversers().contains(obv));
+	public void testRemoveObserver() {
+		model.removeObserver(obv);
+		assertEquals(0, model.getObservers().size());
+		assertEquals(false, model.getObservers().contains(obv));
 	}
 
 }

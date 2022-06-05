@@ -1,22 +1,14 @@
 package com.dwarfeng.dutil.develop.cfg;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Set;
-import java.util.WeakHashMap;
-
 import com.dwarfeng.dutil.basic.DwarfUtil;
 import com.dwarfeng.dutil.basic.ExceptionStringKey;
-import com.dwarfeng.dutil.develop.cfg.obv.ExconfigObverser;
+import com.dwarfeng.dutil.develop.cfg.obs.ExconfigObserver;
 import com.dwarfeng.dutil.develop.cfg.struct.ConfigChecker;
 import com.dwarfeng.dutil.develop.cfg.struct.ExconfigEntry;
 import com.dwarfeng.dutil.develop.cfg.struct.ValueParser;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * 默认Ex配置模型。
@@ -28,7 +20,7 @@ import com.dwarfeng.dutil.develop.cfg.struct.ValueParser;
  * <p>
  * 只有一个映射意味着设置代理和初值是非常方便的，不像 {@link DefaultConfigModel} 那样需要设置两个映射的代理，
  * 该实现只需要设置一个映射的代理，从而避免了 {@link DefaultConfigModel}的代理表现不一致的问题。
- * 
+ *
  * @author DwArFeng
  * @since 0.1.0-beta
  */
@@ -38,8 +30,8 @@ public class DefaultExconfigModel extends AbstractExconfigModel {
 	 * Ex配置Bean。
 	 * <p>
 	 * 用于获取和设置 {@link ExconfigModel} 中需要的固定属性、当前值、值解析器。
-	 * 
-	 * @author DwArFeng
+     *
+     * @author DwArFeng
 	 * @since 0.1.0-beta
 	 */
 	public static class ExconfigBean {
@@ -57,8 +49,8 @@ public class DefaultExconfigModel extends AbstractExconfigModel {
 
 		/**
 		 * 生成具有指定属性值的 Ex配置Bean。
-		 * 
-		 * @param configFirmProps
+         *
+         * @param configFirmProps
 		 *            指定的固定属性。
 		 * @param currentValue
 		 *            指定的当前值。
@@ -73,8 +65,8 @@ public class DefaultExconfigModel extends AbstractExconfigModel {
 
 		/**
 		 * 获取该Bean中的配置固定属性。
-		 * 
-		 * @return 该Bean中的配置固定属性。
+         *
+         * @return 该Bean中的配置固定属性。
 		 */
 		public ConfigFirmProps getConfigFirmProps() {
 			return configFirmProps;
@@ -82,8 +74,8 @@ public class DefaultExconfigModel extends AbstractExconfigModel {
 
 		/**
 		 * 设置该Bean中的配置固定属性为指定值。
-		 * 
-		 * @param configFirmProps
+         *
+         * @param configFirmProps
 		 *            指定的配置固定属性。
 		 */
 		public void setConfigFirmProps(ConfigFirmProps configFirmProps) {
@@ -92,8 +84,8 @@ public class DefaultExconfigModel extends AbstractExconfigModel {
 
 		/**
 		 * 获取该Bean中的当前值。
-		 * 
-		 * @return 该Bean中的当前值。
+         *
+         * @return 该Bean中的当前值。
 		 */
 		public String getCurrentValue() {
 			return currentValue;
@@ -101,8 +93,8 @@ public class DefaultExconfigModel extends AbstractExconfigModel {
 
 		/**
 		 * 设置该Bean中的当前值为指定值。
-		 * 
-		 * @param currentValue
+         *
+         * @param currentValue
 		 *            指定的当前值。
 		 */
 		public void setCurrentValue(String currentValue) {
@@ -111,8 +103,8 @@ public class DefaultExconfigModel extends AbstractExconfigModel {
 
 		/**
 		 * 获取该Bean中的值解析器。
-		 * 
-		 * @return 该Bean中的值解析器。
+         *
+         * @return 该Bean中的值解析器。
 		 */
 		public ValueParser getValueParser() {
 			return valueParser;
@@ -120,8 +112,8 @@ public class DefaultExconfigModel extends AbstractExconfigModel {
 
 		/**
 		 * 设置该Bean中的值解析器为指定值。
-		 * 
-		 * @param valueParser
+         *
+         * @param valueParser
 		 *            该Bean中的值解析器。
 		 */
 		public void setValueParser(ValueParser valueParser) {
@@ -142,8 +134,8 @@ public class DefaultExconfigModel extends AbstractExconfigModel {
 
 	/**
 	 * 生成一个具有指定初始值入口的Ex配置模型。
-	 * 
-	 * @param entries
+     *
+     * @param entries
 	 *            指定的初始值入口的集合。
 	 * @throws NullPointerException
 	 *             入口参数为 <code>null</code>。
@@ -156,28 +148,28 @@ public class DefaultExconfigModel extends AbstractExconfigModel {
 	 * 生成一个具有指定初始值入口、映射代理、指定的观察器集合的Ex配置模型。
 	 * <p>
 	 * 只有初始值入口集合中的有效入口才会被添加到模型中。
-	 * 
-	 * @param entries
-	 *            指定的初始值入口的集合。
-	 * @param delegate
-	 *            指定的映射代理。
-	 * @param obversers
-	 *            指定的观察器集合。
-	 * @throws NullPointerException
-	 *             入口参数为 <code>null</code>。
-	 */
-	public DefaultExconfigModel(Collection<ExconfigEntry> entries, Map<ConfigKey, ExconfigBean> delegate,
-			Set<ExconfigObverser> obversers) {
-		super(obversers);
+     *
+     * @param entries
+     *            指定的初始值入口的集合。
+     * @param delegate
+     *            指定的映射代理。
+     * @param obversers
+     *            指定的观察器集合。
+     * @throws NullPointerException
+     *             入口参数为 <code>null</code>。
+     */
+    public DefaultExconfigModel(Collection<ExconfigEntry> entries, Map<ConfigKey, ExconfigBean> delegate,
+                                Set<ExconfigObserver> obversers) {
+        super(obversers);
 
-		Objects.requireNonNull(delegate, DwarfUtil.getExceptionString(ExceptionStringKey.DEFAULTEXCONFIGMODEL_0));
-		Objects.requireNonNull(entries, DwarfUtil.getExceptionString(ExceptionStringKey.DEFAULTEXCONFIGMODEL_1));
+        Objects.requireNonNull(delegate, DwarfUtil.getExceptionString(ExceptionStringKey.DEFAULTEXCONFIGMODEL_0));
+        Objects.requireNonNull(entries, DwarfUtil.getExceptionString(ExceptionStringKey.DEFAULTEXCONFIGMODEL_1));
 
-		this.delegate = delegate;
+        this.delegate = delegate;
 
-		for (ExconfigEntry exconfigEntry : entries) {
-			if (Objects.isNull(exconfigEntry))
-				continue;
+        for (ExconfigEntry exconfigEntry : entries) {
+            if (Objects.isNull(exconfigEntry))
+                continue;
 			if (ConfigUtil.nonValid(exconfigEntry))
 				continue;
 			if (delegate.containsKey(exconfigEntry.getConfigKey()))

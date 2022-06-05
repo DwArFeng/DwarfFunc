@@ -1,25 +1,17 @@
 package com.dwarfeng.dutil.basic.cna.model;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.WeakHashMap;
-
 import com.dwarfeng.dutil.basic.DwarfUtil;
 import com.dwarfeng.dutil.basic.ExceptionStringKey;
-import com.dwarfeng.dutil.basic.cna.model.obv.SetObverser;
+import com.dwarfeng.dutil.basic.cna.model.obs.SetObserver;
 import com.dwarfeng.dutil.basic.prog.WithKey;
+
+import java.util.*;
 
 /**
  * 映射键值集合模型。
  * <p>
  * 该模型中使用一个映射来处理集合的元素，这使得模型在处理键的时候拥有较高的性能。
- * 
+ *
  * @author DwArFeng
  * @since 0.1.0-beta
  */
@@ -35,21 +27,18 @@ public class MapKeySetModel<K, V extends WithKey<K>> extends AbstractSetModel<V>
 		this(new HashMap<>(), Collections.newSetFromMap(new WeakHashMap<>()));
 	}
 
-	/**
-	 * 生成一个拥有指定的映射，指定的侦听器集合的映射键值集合模型。
-	 * 
-	 * @param map
-	 *            指定的映射。
-	 * @param obversers
-	 *            指定的侦听器集合。
-	 * @throws NullPointerException
-	 *             入口参数为 <code>null</code>。
-	 */
-	public MapKeySetModel(Map<K, V> map, Set<SetObverser<V>> obversers) {
-		super(obversers);
-		Objects.requireNonNull(map, DwarfUtil.getExceptionString(ExceptionStringKey.MAPKEYSETMODEL_0));
-		this.map = map;
-	}
+    /**
+     * 生成一个拥有指定的映射，指定的侦听器集合的映射键值集合模型。
+     *
+     * @param map       指定的映射。
+     * @param observers 指定的侦听器集合。
+     * @throws NullPointerException 入口参数为 <code>null</code>。
+     */
+    public MapKeySetModel(Map<K, V> map, Set<SetObserver<V>> observers) {
+        super(observers);
+        Objects.requireNonNull(map, DwarfUtil.getExceptionString(ExceptionStringKey.MAPKEYSETMODEL_0));
+        this.map = map;
+    }
 
 	/**
 	 * {@inheritDoc}
@@ -72,11 +61,11 @@ public class MapKeySetModel<K, V extends WithKey<K>> extends AbstractSetModel<V>
 	 */
 	@Override
 	public boolean contains(Object o) {
-		return map.values().contains(o);
-	}
+		return map.containsValue(o);
+    }
 
-	/**
-	 * {@inheritDoc}
+    /**
+     * {@inheritDoc}
 	 */
 	@Override
 	public Iterator<V> iterator() {
@@ -245,11 +234,11 @@ public class MapKeySetModel<K, V extends WithKey<K>> extends AbstractSetModel<V>
 	 */
 	@Override
 	public boolean containsKey(Object key) {
-		return map.keySet().contains(key);
-	}
+		return map.containsKey(key);
+    }
 
-	/**
-	 * {@inheritDoc}
+    /**
+     * {@inheritDoc}
 	 */
 	@Override
 	public boolean containsAllKey(Collection<?> c) {

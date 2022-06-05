@@ -1,14 +1,12 @@
 package com.dwarfeng.dutil.develop.i18n;
 
+import com.dwarfeng.dutil.develop.i18n.obs.I18nObserver;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import com.dwarfeng.dutil.develop.i18n.I18n;
-import com.dwarfeng.dutil.develop.i18n.I18nInfo;
-import com.dwarfeng.dutil.develop.i18n.obv.I18nObverser;
-
-class TestI18nObverser implements I18nObverser {
+class TestI18NObserver implements I18nObserver {
 
 	public List<I18nInfo> addedList = new ArrayList<>();
 	public List<I18nInfo> removedList = new ArrayList<>();

@@ -1,13 +1,5 @@
 package com.dwarfeng.dutil.develop.setting;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
 import com.dwarfeng.dutil.basic.DwarfUtil;
 import com.dwarfeng.dutil.basic.ExceptionStringKey;
 import com.dwarfeng.dutil.basic.cna.CollectionUtil;
@@ -16,16 +8,20 @@ import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.dutil.develop.cfg.struct.ConfigChecker;
 import com.dwarfeng.dutil.develop.cfg.struct.ValueParser;
 import com.dwarfeng.dutil.develop.setting.SettingHandler.Entry;
-import com.dwarfeng.dutil.develop.setting.obv.SettingObverser;
+import com.dwarfeng.dutil.develop.setting.obs.SettingObserver;
+
+import java.util.*;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * 有关配置工具的工具包。
- * 
+ *
  * <p>
  * 该包中包含关于对配置工具器进行操作的常用方法。
  * <p>
  * 由于是只含有静态方法的工具包，所以该类无法被继承。
- * 
+ *
  * @author DwArFeng
  * @since 0.2.0-beta
  */
@@ -33,8 +29,8 @@ public final class SettingUtil {
 
 	/**
 	 * 根据指定的配置入口生成一个不可变更的配置入口。
-	 * 
-	 * @param entry
+     *
+     * @param entry
 	 *            指定的配置入口。
 	 * @return 根据指定的配置入口生成的不可变更的配置入口。
 	 * @throws NullPointerException
@@ -125,8 +121,8 @@ public final class SettingUtil {
 
 	/**
 	 * 根据指定的配置处理器生成一个不可更改的配置处理器。
-	 * 
-	 * @param settingHandler
+     *
+     * @param settingHandler
 	 *            指定的配置处理器。
 	 * @return 根据指定的配置处理器生成的不可更改的配置处理器。
 	 * @throws NullPointerException
@@ -145,36 +141,36 @@ public final class SettingUtil {
 			this.delegate = delegate;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Set<SettingObverser> getObversers() {
-			return delegate.getObversers();
-		}
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Set<SettingObserver> getObservers() {
+            return delegate.getObservers();
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean addObverser(SettingObverser obverser) throws UnsupportedOperationException {
-			throw new UnsupportedOperationException("addObverser");
-		}
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean addObserver(SettingObserver observer) throws UnsupportedOperationException {
+            throw new UnsupportedOperationException("addObserver");
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean removeObverser(SettingObverser obverser) throws UnsupportedOperationException {
-			throw new UnsupportedOperationException("removeObverser");
-		}
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean removeObserver(SettingObserver observer) throws UnsupportedOperationException {
+            throw new UnsupportedOperationException("removeObserver");
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public void clearObverser() throws UnsupportedOperationException {
-			throw new UnsupportedOperationException("clearObverser");
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void clearObserver() throws UnsupportedOperationException {
+            throw new UnsupportedOperationException("clearObserver");
 		}
 
 		/**
@@ -497,13 +493,13 @@ public final class SettingUtil {
 		@Override
 		public boolean setParsedValue(Name key, Object obj) {
 			throw new UnsupportedOperationException("setParsedValue");
-		}
+        }
 
 	}
 
 	/**
 	 * 根据指定的配置处理器生成一个线程安全的配置处理器。
-	 * 
+	 *
 	 * @param settingHandler
 	 *            指定的配置处理器。
 	 * @return 根据指定的配置处理器生成的线程安全的配置处理器。
@@ -1041,57 +1037,57 @@ public final class SettingUtil {
 			try {
 				return delegate.setParsedValue(key, obj);
 			} finally {
-				lock.writeLock().unlock();
-			}
-		}
+                lock.writeLock().unlock();
+            }
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Set<SettingObverser> getObversers() {
-			lock.readLock().lock();
-			try {
-				return delegate.getObversers();
-			} finally {
-				lock.readLock().unlock();
-			}
-		}
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Set<SettingObserver> getObservers() {
+            lock.readLock().lock();
+            try {
+                return delegate.getObservers();
+            } finally {
+                lock.readLock().unlock();
+            }
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean addObverser(SettingObverser obverser) throws UnsupportedOperationException {
-			lock.writeLock().lock();
-			try {
-				return delegate.addObverser(obverser);
-			} finally {
-				lock.writeLock().unlock();
-			}
-		}
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean addObserver(SettingObserver observer) throws UnsupportedOperationException {
+            lock.writeLock().lock();
+            try {
+                return delegate.addObserver(observer);
+            } finally {
+                lock.writeLock().unlock();
+            }
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean removeObverser(SettingObverser obverser) throws UnsupportedOperationException {
-			lock.writeLock().lock();
-			try {
-				return delegate.removeObverser(obverser);
-			} finally {
-				lock.writeLock().unlock();
-			}
-		}
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean removeObserver(SettingObserver observer) throws UnsupportedOperationException {
+            lock.writeLock().lock();
+            try {
+                return delegate.removeObserver(observer);
+            } finally {
+                lock.writeLock().unlock();
+            }
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public void clearObverser() throws UnsupportedOperationException {
-			lock.writeLock().lock();
-			try {
-				delegate.clearObverser();
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void clearObserver() throws UnsupportedOperationException {
+            lock.writeLock().lock();
+            try {
+                delegate.clearObserver();
 			} finally {
 				lock.writeLock().unlock();
 			}
@@ -1144,7 +1140,7 @@ public final class SettingUtil {
 			lock.readLock().lock();
 			try {
 				return delegate.toString();
-			} finally {
+            } finally {
 				lock.readLock().unlock();
 			}
 		}
@@ -1153,10 +1149,10 @@ public final class SettingUtil {
 
 	/**
 	 * 将指定枚举中的条目添加到指定的配置处理器中。
-	 * 
+	 *
 	 * <p>
 	 * 该方法要求枚举实现 {@link SettingEnumItem} 接口， 并将枚举中的所有对象按照接口的格式依次添加到指定的配置处理器中。
-	 * 
+	 *
 	 * @param clazz
 	 *            指定的枚举对应的类。
 	 * @param settingHandler
@@ -1181,7 +1177,7 @@ public final class SettingUtil {
 
 	/**
 	 * 将指定集合中的所有配置枚举条目添加到指定的配置处理器中。
-	 * 
+	 *
 	 * @param items
 	 *            指定的配置枚举条目组成的集合。
 	 * @param settingHandler
@@ -1200,7 +1196,7 @@ public final class SettingUtil {
 
 	/**
 	 * 将指定数组中的所有配置枚举条目添加到指定的配置处理器中。
-	 * 
+	 *
 	 * @param items
 	 *            指定的配置枚举条目组成的数组。
 	 * @param settingHandler
@@ -1224,10 +1220,10 @@ public final class SettingUtil {
 
 	/**
 	 * 将指定的配置值检查器、值转换器、默认值转换为配置信息。
-	 * 
+	 *
 	 * <p>
 	 * 该方法可以由 com.dwarfeng.dutil.develop.cfg 包中的配置值检查器以及值转换器生成新的配置信息。
-	 * 
+	 *
 	 * @param configChecker
 	 *            指定的配置值检查器。
 	 * @param valueParser
@@ -1287,25 +1283,21 @@ public final class SettingUtil {
 			if (obj == null)
 				return false;
 			if (getClass() != obj.getClass())
-				return false;
-			CvSettingInfo other = (CvSettingInfo) obj;
-			if (configChecker == null) {
-				if (other.configChecker != null)
-					return false;
-			} else if (!configChecker.equals(other.configChecker))
-				return false;
-			if (valueParser == null) {
-				if (other.valueParser != null)
-					return false;
-			} else if (!valueParser.equals(other.valueParser)) {
-				return false;
-			} else if (defaultValue == null) {
-				if (other.defaultValue != null)
-					return false;
-			} else if (!defaultValue.equals(other.defaultValue))
-				return false;
-			return true;
-		}
+                return false;
+            CvSettingInfo other = (CvSettingInfo) obj;
+            if (configChecker == null) {
+                if (other.configChecker != null)
+                    return false;
+            } else if (!configChecker.equals(other.configChecker))
+                return false;
+            if (valueParser == null) {
+                return other.valueParser == null;
+            } else if (!valueParser.equals(other.valueParser)) {
+                return false;
+            } else if (defaultValue == null) {
+                return other.defaultValue == null;
+			} else return defaultValue.equals(other.defaultValue);
+        }
 
 		/**
 		 * {@inheritDoc}
@@ -1344,7 +1336,7 @@ public final class SettingUtil {
 
 	/**
 	 * 将指定的配置枚举条目、当前值转换为配置入口。
-	 * 
+	 *
 	 * @param item
 	 *            指定的配置枚举条目。
 	 * @param currentValue
@@ -1398,7 +1390,7 @@ public final class SettingUtil {
 	 * <p>
 	 * 只有同时满足配置信息值检查和过滤器的值检查，才能算是有效的值。 <br>
 	 * 该方法使一个配置信息的有效范围按照指定的要求进一步缩小。
-	 * 
+	 *
 	 * @param settingInfo
 	 *            指定的配置信息。
 	 * @param valueFilter
@@ -1498,26 +1490,23 @@ public final class SettingUtil {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (!(obj instanceof ValueFilteredSettingInfo))
-				return false;
-			ValueFilteredSettingInfo other = (ValueFilteredSettingInfo) obj;
-			if (delegate == null) {
-				if (other.delegate != null)
-					return false;
-			} else if (!delegate.equals(other.delegate))
-				return false;
-			if (valueFilter == null) {
-				if (other.valueFilter != null)
-					return false;
-			} else if (!valueFilter.equals(other.valueFilter))
-				return false;
-			return true;
-		}
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (!(obj instanceof ValueFilteredSettingInfo))
+                return false;
+            ValueFilteredSettingInfo other = (ValueFilteredSettingInfo) obj;
+            if (delegate == null) {
+                if (other.delegate != null)
+                    return false;
+            } else if (!delegate.equals(other.delegate))
+                return false;
+            if (valueFilter == null) {
+                return other.valueFilter == null;
+			} else return valueFilter.equals(other.valueFilter);
+        }
 
 		/**
 		 * {@inheritDoc}
@@ -1534,7 +1523,7 @@ public final class SettingUtil {
 	 * <p>
 	 * 只有同时满足配置信息值检查和过滤器的值检查，才能算是有效的值。 <br>
 	 * 该方法使一个配置信息的有效范围按照指定的要求进一步缩小。
-	 * 
+	 *
 	 * @param settingInfo
 	 *            指定的配置信息。
 	 * @param objectFilter
@@ -1636,26 +1625,23 @@ public final class SettingUtil {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (!(obj instanceof ObjectFilteredSettingInfo))
-				return false;
-			ObjectFilteredSettingInfo other = (ObjectFilteredSettingInfo) obj;
-			if (delegate == null) {
-				if (other.delegate != null)
-					return false;
-			} else if (!delegate.equals(other.delegate))
-				return false;
-			if (objectFilter == null) {
-				if (other.objectFilter != null)
-					return false;
-			} else if (!objectFilter.equals(other.objectFilter))
-				return false;
-			return true;
-		}
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (!(obj instanceof ObjectFilteredSettingInfo))
+                return false;
+            ObjectFilteredSettingInfo other = (ObjectFilteredSettingInfo) obj;
+            if (delegate == null) {
+                if (other.delegate != null)
+                    return false;
+            } else if (!delegate.equals(other.delegate))
+                return false;
+            if (objectFilter == null) {
+                return other.objectFilter == null;
+			} else return objectFilter.equals(other.objectFilter);
+        }
 
 		/**
 		 * {@inheritDoc}
