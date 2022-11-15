@@ -9,6 +9,8 @@
 
 #### Bug修复
 
+- 规范所有测试类的类名。
+
 - 修改部分类中不规范的代码。
   - com.dwarfeng.dutil.basic.io.StringOutputStream。
   - com.dwarfeng.dutil.basic.cna.AttributeComplex。

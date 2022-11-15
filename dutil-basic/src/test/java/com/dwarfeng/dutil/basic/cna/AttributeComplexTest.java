@@ -1,41 +1,32 @@
 package com.dwarfeng.dutil.basic.cna;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
+import com.dwarfeng.dutil.basic.str.DefaultName;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.dwarfeng.dutil.basic.str.DefaultName;
+import static org.junit.Assert.*;
 
-public class Test_AttributeComplex {
+public class AttributeComplexTest {
 
 	private static AttributeComplex attributeComplex;
 	private static AttributeComplex anotherAttributeComplex;
 
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	public static void setUpBeforeClass() {
 		anotherAttributeComplex = AttributeComplex
-				.newInstance(new Object[] { "key.a", true, "key.b", false, "key.c", 12450 });
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
+				.newInstance(new Object[]{"key.a", true, "key.b", false, "key.c", 12450});
 	}
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		attributeComplex = AttributeComplex
-				.newInstance(new Object[] { "key.a", true, new DefaultName("key.b"), false, "key.c", 12450 });
+				.newInstance(new Object[]{"key.a", true, new DefaultName("key.b"), false, "key.c", 12450});
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		attributeComplex = null;
 	}
 
@@ -122,7 +113,7 @@ public class Test_AttributeComplex {
 	public final void testGetStringClassOfT() {
 		assertEquals(true, attributeComplex.get("key.a", Boolean.class));
 		assertEquals(false, attributeComplex.get("key.b", Boolean.class));
-		assertEquals((Integer) 12450, (Integer) attributeComplex.get("key.c", Integer.class));
+		assertEquals((Integer) 12450, attributeComplex.get("key.c", Integer.class));
 	}
 
 	@Test(expected = ClassCastException.class)
@@ -135,14 +126,13 @@ public class Test_AttributeComplex {
 	public final void testGetNameClassOfT() {
 		assertEquals(true, attributeComplex.get(new DefaultName("key.a"), Boolean.class));
 		assertEquals(false, attributeComplex.get(new DefaultName("key.b"), Boolean.class));
-		assertEquals((Integer) 12450, (Integer) attributeComplex.get(new DefaultName("key.c"), Integer.class));
+		assertEquals((Integer) 12450, attributeComplex.get(new DefaultName("key.c"), Integer.class));
 	}
 
 	@Test
 	public final void testEqualsObject() {
-		assertTrue(attributeComplex.equals(attributeComplex));
-		assertTrue(attributeComplex.equals(anotherAttributeComplex));
-		assertTrue(anotherAttributeComplex.equals(attributeComplex));
+		assertEquals(attributeComplex, attributeComplex);
+		assertEquals(attributeComplex, anotherAttributeComplex);
+		assertEquals(anotherAttributeComplex, attributeComplex);
 	}
-
 }
