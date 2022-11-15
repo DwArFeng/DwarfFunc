@@ -9,6 +9,15 @@
 
 #### Bug修复
 
+- 修改部分类中不规范的代码。
+  - com.dwarfeng.dutil.basic.io.StringOutputStream。
+  - com.dwarfeng.dutil.basic.cna.AttributeComplex。
+  - com.dwarfeng.dutil.basic.str.StringComparator。
+  - com.dwarfeng.dutil.basic.num.unit.Angle。
+  - com.dwarfeng.dutil.basic.num.unit.DataSize。
+  - com.dwarfeng.dutil.basic.num.unit.Mass。
+  - com.dwarfeng.dutil.basic.num.unit.Time。
+
 - 优化 UUIDUtil 中不规范的位移代码。
 
 #### 功能移除
